@@ -1686,6 +1686,41 @@ be managed by dist. Each member is of the format `<project-type>:<relative-path>
 * dist: expect a dist.toml for a dist-based generic project in that dir
 
 
+### `workspace.packages`
+
+> <span style="float:right">since 0.30.3<br>[global-only][]</span>
+> [📖 read the guide for this feature!][distribute] \
+> default = `<none>` (infer it)
+>
+> *in your dist-workspace.toml:*
+> ```toml
+> [workspace]
+> packages = ["a", "b"]
+> ```
+
+`packages` provides a more explicit way of specifying which packages to dist
+(or not). If `packages` is set, it provides a list of exactly which packages
+should be distributed within the workspace. It overrides individual
+package-level `dist = true` or `dist = false` configuration.
+
+
+### `workspace.version`
+
+> <span style="float:right">since 0.30.3<br>[global-only][]</span>
+> default = `<none>` (infer it)
+>
+> *in your dist-workspace.toml:*
+> ```toml
+> [workspace]
+> version = "0.0.1"
+> ```
+
+If set, this value will override the actual version configured for each
+package. For example, if the workspace contains packages versioned "0.2" and
+"0.3", and this value is set to "0.1", then dist will consider every package in
+the workspace to have the version "0.1".
+
+
 ### `workspace.repository`
 
 > <span style="float:right">since 0.33.0<br>[global-only][]</span>
