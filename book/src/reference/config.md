@@ -17,6 +17,7 @@ We're currently in the middle of [a major config migration](https://github.com/a
 [`[dist]`](#the-dist-section)
 * [`allow-dirty`](#allow-dirty)
 * [`cargo-dist-version`](#cargo-dist-version)
+* [`cargo-dist-url-override`](#cargo-dist-url-override)
 * [`dist`](#dist)
 * [`targets`](#targets)
 
@@ -176,6 +177,30 @@ This is added automatically by [`dist init`][init], and is a recording of its ow
 Your [release CI][github-ci] will fetch and use the given version of dist to build and publish your project.
 
 The syntax must be a valid [Cargo-style SemVer Version][semver-version] (not a VersionReq!).
+
+
+## `cargo-dist-url-override`
+
+> <span style="float:right">since 0.26.0<br>[global-only][]</span>
+> default = `<none>`
+>
+> *in your dist-workspace.toml or dist.toml:*
+> ```toml
+> [dist]
+> cargo-dist-url-override = "https://github.com/axodotdev/cargo-dist/releases/download/v0.26.0"
+> ```
+
+Overrides the URL that your [release CI][github-ci] uses to fetch and install
+dist itself, replacing the default
+`https://github.com/axodotdev/cargo-dist/releases/download/v{VERSION}`
+location.
+
+This is useful if you want to pin CI to a fork or mirror of dist, or to a custom build of dist that you host yourself.
+
+The value is used verbatim as the base URL, with `/cargo-dist-installer.sh`/`.ps1`
+appended to it. The version is **not** appended automatically, so the base URL must include the version.
+
+Setting this overrides [`cargo-dist-version`](#cargo-dist-version) for the purpose of fetching dist in CI.
 
 
 ## `dist`
