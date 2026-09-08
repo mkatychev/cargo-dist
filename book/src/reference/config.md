@@ -18,9 +18,7 @@ We're currently in the middle of [a major config migration](https://github.com/a
 * [`allow-dirty`](#allow-dirty)
 * [`cargo-dist-version`](#cargo-dist-version)
 * [`dist`](#dist)
-* [`packages`](#packages)
 * [`targets`](#targets)
-* [`version`](#version)
 
 [artifact settings](#artifact-settings)
 * [`checksum`](#checksum)
@@ -111,6 +109,8 @@ We're currently in the middle of [a major config migration](https://github.com/a
 
 [`[workspace]`](#the-workspace-section)
 * [`members`](#workspacemembers)
+* [`packages`](#workspacepackages)
+* [`version`](#workspaceversion)
 
 [`[package]`](#the-package-section)
 * [`name`](#packagename)
@@ -199,21 +199,6 @@ There are 3 major cases where you might use this:
 * `dist = false` on a whole workspace defaults all packages to do-not-distribute, forcing you to manually allow-list packages with `dist = true` (large monorepos often find this to be a better way of managing project distribution when most developers aren't release engineers).
 
 
-## `packages`
-
-> <span style="float:right">since 0.29.0<br>[global-only][]</span>
-> [📖 read the guide for this feature!][distribute] \
-> default = `<none>` (infer it)
->
-> *in your dist-workspace.toml or dist.toml:*
-> ```toml
-> [dist]
-> packages = ["a", "b"]
-> ```
-
-`packages` provides a more explicit way of specifying which packages to dist (or not). If `packages` is set, it provides a list of exactly which packages should be distributed within the workspace. It overrides individual package-level `dist = true` or `dist = false` configuration.
-
-
 ## `targets`
 
 > <span style="float:right">since 0.0.3<br>[package-local][]</span>
@@ -244,19 +229,6 @@ The supported choices are:
 * arm64 Linux (static musl): "aarch64-unknown-linux-musl"
 
 By default all runs of `dist` will be trying to handle all platforms specified here at once. If you specify `--target=...` on the CLI this will focus the run to only those platforms. As discussed in [concepts][], this cannot be used to specify platforms that are not listed in `metadata.dist`, to ensure different runs agree on the maximum set of platforms.
-
-
-## `version`
-> <span style="float:right">since 0.29.0<br>[global-only][]</span>
-> default = `<none>` (infer it)
->
-> *in your dist-workspace.toml or dist.toml:*
-> ```toml
-> [dist]
-> version = "0.0.1"
-> ```
-
-If set, this value will override the actual version configured for each package. For example, if the workspace contains packages versioned "0.2" and "0.3", and this value is set to "0.1", then dist will consider every package in the workspace to have the version "0.1".
 
 
 ## artifact settings
